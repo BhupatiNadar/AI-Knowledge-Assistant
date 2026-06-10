@@ -4,6 +4,7 @@ import streamlit as st
 from src.screens.Login import LoginScreen
 from src.screens.Signup import SignupScreen
 from src.UI.base_layout import style_base_layout
+from src.screens.Home import HomeScreen
 
 def main():
     style_base_layout()
@@ -18,6 +19,12 @@ def main():
         
     if "User_login" not in st.session_state:
         st.session_state["User_login"] = None
+        
+    if "User_data" not in st.session_state:
+        st.session_state["User_data"] = None
+        
+    if "User_tab" not in st.session_state:
+        st.session_state["User_tab"] = None
 
     match (st.session_state["login_type"], st.session_state["User_login"]):
 
@@ -28,7 +35,7 @@ def main():
             SignupScreen()
 
         case (_, True):
-            st.write("Hello world")
+            HomeScreen()
 
         case (None, None):
             LoginScreen()
