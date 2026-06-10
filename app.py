@@ -15,17 +15,22 @@ def main():
 
     if "login_type" not in st.session_state:
         st.session_state["login_type"] = None
+        
+    if "User_login" not in st.session_state:
+        st.session_state["User_login"] = None
 
-    match st.session_state["login_type"]:
+    match (st.session_state["login_type"], st.session_state["User_login"]):
 
-        case "Login":
+        case ("Login", None):
             LoginScreen()
 
-        case "Signup":
+        case ("Signup", None):
             SignupScreen()
-            
 
-        case None:
+        case (_, True):
+            st.write("Hello world")
+
+        case (None, None):
             LoginScreen()
 
 if __name__ == "__main__":
