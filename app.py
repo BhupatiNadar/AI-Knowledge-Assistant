@@ -37,6 +37,9 @@ def main():
         case (_, True):
             HomeScreen()
 
+        case (None, False):
+            LoginScreen()
+
         case (None, None):
             LoginScreen()
 

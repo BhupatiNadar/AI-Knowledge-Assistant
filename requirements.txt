@@ -1,3 +1,6 @@
 streamlit
 supabase
 bcrypt
+sentence_transformers
+pymupdf
+torchvision

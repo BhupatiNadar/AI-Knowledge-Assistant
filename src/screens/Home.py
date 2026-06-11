@@ -5,6 +5,7 @@ from src.screens.Chat import chat_screen
 from src.screens.Documents import document_screen
 from src.screens.Upload import upload_screen
 from src.screens.History import history_screen
+from src.screens.Setting import setting_screen
 
 def HomeScreen():
     
@@ -50,9 +51,9 @@ def HomeScreen():
         st.image(user_logo, width=50)
         
         st.markdown(f"""
-                    <div>
-                    {st.session_state["User_data"][0].get("user_name")}
-                    </div>
+                     <div>
+                     {st.session_state["User_data"][0].get("user_name")}
+                     </div>
                 </div>""",unsafe_allow_html=True)
         
         
@@ -70,6 +71,9 @@ def HomeScreen():
             
             case "History":
                 pass
+            
+            case "Settings":
+                setting_screen()
             
             case None:
                 chat_screen()
