@@ -4,3 +4,4 @@ bcrypt
 sentence_transformers
 pymupdf
 torchvision
+agno
