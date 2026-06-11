@@ -124,3 +124,69 @@ def insert_document_chunks(rows):
     )
 
     return response.data
+
+def save_message(conversation_id, role, content):
+    Supabase.table("messages").insert({
+        "conversation_id": conversation_id,
+        "role": role,
+        "content": content
+    }).execute()
+    
+def get_history(conversation_id):
+    response = (
+        Supabase.table("messages")
+        .select("role,content")
+        .eq("conversation_id", conversation_id)
+        .order("created_at")
+        .execute()
+    )
+
+    return response.data
+
+
+def create_conversation(user_id):
+    response = (
+        Supabase.table("conversations")
+        .insert({"user_id": user_id})
+        .execute()
+    )
+    return response.data[0]["conversation_id"]
+
+
+def fetch_conversations(user_id):
+    response = (
+        Supabase.table("conversations")
+        .select("conversation_id, created_at")
+        .eq("user_id", user_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return response.data
+
+
+def delete_conversation(conversation_id, user_id):
+    Supabase.table("messages").delete().eq(
+        "conversation_id", conversation_id
+    ).execute()
+
+    Supabase.table("conversations").delete().eq(
+        "conversation_id", conversation_id
+    ).eq("user_id", user_id).execute()
+
+
+def get_conversation_title(conversation_id):
+    response = (
+        Supabase.table("messages")
+        .select("content")
+        .eq("conversation_id", conversation_id)
+        .eq("role", "user")
+        .order("created_at")
+        .limit(1)
+        .execute()
+    )
+
+    if response.data:
+        title = response.data[0]["content"]
+        return title[:50] + "..." if len(title) > 50 else title
+
+    return "New Conversation"

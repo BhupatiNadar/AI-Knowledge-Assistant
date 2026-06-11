@@ -70,7 +70,7 @@ def HomeScreen():
                 upload_screen()
             
             case "History":
-                pass
+                history_screen()
             
             case "Settings":
                 setting_screen()

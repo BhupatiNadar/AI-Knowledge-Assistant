@@ -1,15 +1,24 @@
-from RAG.retrieval.retriever import retrieve
+from src.RAG.retrieval.retriever import retrieve
 
 def create_search_tool(user_id):
 
     def search_documents(query: str) -> str:
-        chunks = retrieve(query, user_id)
+        
+        print("TOOL CALLED:", query)
+        
+        try:
+            chunks = retrieve(query, user_id)
+        except Exception as e:
+            print(f"SEARCH ERROR: {type(e).__name__}: {e}")
+            return f"Search error: {type(e).__name__}: {e}"
 
+        print(f"SEARCH RESULTS: {len(chunks)} chunks found")
+        
         if not chunks:
-            return "No relevant information found."
+            return "No relevant information found in the uploaded documents."
 
         return "\n\n".join(
-            chunk["content"]
+            f"[Source: {chunk['source']}, Page: {chunk['page']}]\n{chunk['content']}"
             for chunk in chunks[:5]
         )
 

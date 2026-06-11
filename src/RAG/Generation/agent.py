@@ -2,12 +2,9 @@ import streamlit as st
 
 from agno.agent import Agent
 from agno.models.groq import Groq
-from RAG.Generation.searchtool import create_search_tool
 
   
 def build_agent():
-
-    user_id = st.session_state["User_data"][0]["user_id"]
 
     return Agent(
         model=Groq(
@@ -16,7 +13,13 @@ def build_agent():
         ),
         markdown=True,
         add_datetime_to_context=True,
-        tools=[
-            create_search_tool(user_id)
+        instructions=[
+        "You are an AI Knowledge Assistant that answers ONLY based on the provided document excerpts.",
+        "Document excerpts are included in the user's message between '--- RELEVANT DOCUMENT EXCERPTS ---' markers.",
+        "ONLY use information from those excerpts. Do NOT use your own general knowledge.",
+        "ALWAYS cite the source file name and page number for every piece of information: (Source: filename.pdf, Page: X)",
+        "If no document excerpts are provided, tell the user no matching content was found.",
+        "NEVER make up or fabricate document content.",
+        "Use previous conversation messages for context to maintain continuity.",
         ]
     )

@@ -1,10 +1,10 @@
 from src.database.config import Supabase
-from src.RAG.embeddings.embedder import EmbeddingManager
+from src.RAG.embeddings.embedder import embedding_manager
 
 
 def retrieve(query: str, user_id: int, n_results: int = 5):
 
-    query_embedding = EmbeddingManager.generate_single(query)
+    query_embedding = embedding_manager.generate_single(query)
 
     if hasattr(query_embedding, "tolist"):
         query_embedding = query_embedding.tolist()
